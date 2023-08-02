@@ -1,4 +1,4 @@
-# Mr Robot writeup
+# Mr Robot CTF writeup
 #pentesting/tryhackme
 
 ## Scenario
