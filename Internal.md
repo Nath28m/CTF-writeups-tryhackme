@@ -525,7 +525,7 @@ bash: no job control in this shell
 jenkins@jenkins:/$
 ```
 
-And we're in the docker enviroment !!!!!
+And we're in the docker environment !!!!!
 
 ## 5. Privilege Escalation (Root)
 
