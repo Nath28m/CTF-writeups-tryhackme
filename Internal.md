@@ -598,7 +598,7 @@ root@internal:~# cat root.txt
 ```
 # Conclusion 
 Thank you for taking you time to read my writeup for the Internal CTF challenge. This was a fun and challenging CTF that is avaliable on tryhackme. Personally, i have learnt so much in this challenge from identifying 
-vulnrability services to exploiting with numerous techniques. I found this to be very helpful in my penertration testing progression. Thank you again for reading to the end and happy hacking!!!!!!!!!!!!!!!!!!!!!!
+vulnrability services to exploiting with numerous techniques. I found this to be very helpful in my penertration testing progression. Thank you again for reading to the end and happy hacking!!!!!!!!!!!!!!!!!!!!!! 
 
 
 
