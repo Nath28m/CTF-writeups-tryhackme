@@ -291,7 +291,7 @@ Saving to: '/tmp/linpeas.sh'
 
 2023-08-08 12:44:24 (521 KB/s) - '/tmp/linpeas.sh' saved [134168/134168]
 ```
-Head on over to the /tmp and execute using bash linpeas.sh
+Headed over to the /tmp and execute using bash linpeas.sh
 
 ```code
 $ cd tmp
@@ -299,6 +299,88 @@ $ ls
 linpeas.sh
 $ bash linpeas.sh
 ```
+We used linpeas for easy navigation for privilege escalation by using the colour palete
+
+There are some interesting things that bought our attention.
+
+There is possible wordpress configuration?
+
+![14 linpeas wp config](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/20856305-5dba-48f7-8d31-84219bbf5b3f)
+
+There is a SSH root login (but we do need the password to that)
+
+![15 root](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/bbf3c169-83d6-40cf-a974-db0ac6fbb696)
+
+There are some interesting readable files under phpmyadmin configuration?  
+
+![16 clue](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/d53e8559-c830-408b-af92-24b75877986d)
+
+We're going to take a look at the infomation in phpmyadmin 
+
+```shell
+$ cd ..
+$ cd /etc/phpmyadmin
+$ ls
+apache.conf
+conf.d
+config-db.php
+config.footer.inc.php
+config.header.inc.php
+config.inc.php
+htpasswd.setup
+lighttpd.conf
+phpmyadmin.desktop
+phpmyadmin.service
+```
+There is One spercific file that looks interesting 
+
+```shell
+$ less config-db.php
+<?php
+##
+## database access settings in php format
+## automatically generated from /etc/dbconfig-common/phpmyadmin.conf
+## by /usr/sbin/dbconfig-generate-include
+##
+## by default this file is managed via ucf, so you shouldn't have to
+## worry about manual changes being silently discarded.  *however*,
+## you'll probably also want to edit the configuration file mentioned
+## above too.
+##
+$dbuser='phpmyadmin';
+$dbpass='B2Ud4fEOZmVq';
+$basepath='';
+$dbname='phpmyadmin';
+$dbserver='localhost';
+$dbport='3306';
+$dbtype='mysql';
+```
+
+Ok this seems to be a database login, there is a second login page for phpmyadmin, maybe this could be it?
+
+Turn out it is, we have access to the database
+
+![17 db](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/5786c570-0d83-457b-9bb5-eb5fda0eb57c)
+
+At this point, we spent 30-45 minutes searching though and finding any information to privilege escalation but we couldn't find anything useful. 
+
+At the same time, looking at the other files in the directory  
+
+config-localhost.php is the wordpress configuration but nothing relevant to what we're after. 
+
+```shell
+$ cat config-localhost.php
+<?php
+define('DB_NAME', 'wordpress');
+define('DB_USER', 'wordpress');
+define('DB_PASSWORD', 'wordpress123');
+define('DB_HOST', 'localhost');
+define('DB_COLLATE', 'utf8_general_ci');
+define('WP_CONTENT_DIR', '/var/www/html/wordpress/wp-content');
+```
+
+After some more seraching, i found an interesting text file in the /opt directory and 
+
 
 
 
