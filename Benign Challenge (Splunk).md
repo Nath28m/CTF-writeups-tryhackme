@@ -47,7 +47,124 @@ Within the search querry apply type the number of events of the given windows ev
 
 ![2 index logs](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/c454a334-ef41-476d-8da1-8e28d54d43ac)
 
+```bash 
+Answer: 13959
+```
+
+## 2. Imposter Alert: There seems to be an imposter account observed in the logs, what is the name of that user?
+
+Splunk can use SQL querries but needs to be adjusted accordingly, to perform certain actions with the logs itself. There are different ways of approaching this, we can ethier use the table command and specify the paremeter as Usernames or perform a SELECT DISTINCT statement which return only distinct (different) values. Ethier way works. 
+```bash
+index=win_eventlogs
+| stats values(UserName)
+```
+![3 useranme](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/8325c517-44e1-4d36-8451-a5ae97903122)
 
 
+The list of provided UserNames. Turns out there are 2 accounts called Amelia but looking at it closly, we notice that 'i' char was replaces with a '1' interger. That's the imposter.
+
+![3 1 names](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/810fb3e9-0290-4d0e-bf5f-03a94c24cd9c)
+
+```bash
+Answer: Amel1a
+```
+
+## 3. Which user from the HR department was observed to be running scheduled tasks?
+
+Scheduled tasks are executed within the schtasks.exe, in the serach querry we can filter out the ProcessName field.
+
+```bash
+index=win_eventlogs ProcessName=*schtasks.exe*
+| stats values(UserName)
+```
+![4 code](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/e803192d-5e6a-41b2-8802-3b7288567663)
+
+3 of the Usernames are from the IT department, leaving only 1 person in the HR deparment. Alternative way is to list out everyone from the HR department into the querry instead of stating 'Usernames' 
+
+![4 1 naems](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/dc2aac8b-93dc-4107-b3e9-e3c7b6003de0)
+
+```bash
+Answer: Chris.fort
+```
+
+## 4. Which user from the HR department executed a system process (LOLBIN) to download a payload from a file-sharing host.
+
+Since we're focusing on the HR department, we can filter out the UserNames in the querry and also filter out 'commands' executed by the users.
+
+```bash 
+index=win_eventlogs (UserName="haroon" OR "Chris.fort" OR "Daina")
+| stats count by CommandLine
+```
+
+A suspicious command being processed under the 'certutil.exe' 
+
+![5 exe file](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/1fed407d-0aca-4901-9a3a-8ec8d8907fcb)
+
+certutil.exe is included within the windows processes so therefore we should be able to filter out the processname field.
+
+```bash
+index=win_eventlogs ProcessName=*certutil.exe*
+```
+
+![5 2 code anme](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/bc16768a-6b07-4453-8dcd-54a7944fd697)
+
+
+
+![5 3 name](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/d0106a01-4ebe-46bf-891d-e44784e0f8d8)
+
+```bash 
+Answer: haroon
+```
+
+### These next few questions can be answered with the same event of haroon.  
+
+## 5. To bypass the security controls, which system process (lolbin) was used to download a payload from the internet?
+
+certutil.exe was used to bypass the security controls.
+
+```bash
+Answer: certutil.exe
+```
+## 6. What was the date that this binary was executed by the infected host? format (YYYY-MM-DD)
+
+Look under the EventTime. 
+
+```bash
+Answer: 2022-03-04
+```
+
+## 7. Which third-party site was accessed to download the malicious payload?
+
+Look under CommandLine.
+
+```bash
+Answer: controlc.com
+```
+
+### 8. What is the name of the file that was saved on the host machine from the C2 server during the post-exploitation phase?
+
+Look under the same line. 
+
+```bash
+Answer: benign.exe
+```
+
+## 9. The suspicious file downloaded from the C2 server contained malicious content with the pattern THM{..........}; what is that pattern?
+
+Accessing the link from the CommandLine, took us to a page that conbtains the flag.
+
+![6 link](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/a889b23c-3673-4f19-9e23-3c39c5a6b97a)
+
+```bash
+Answer: THM{KJ&*H^B0}
+```
+
+## 10. What is the URL that the infected host connected to?
+
+Back to the CommandLine record.
+
+```bash
+Answer: https://controlc.com/e4d11035
+```
 
 
