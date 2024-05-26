@@ -166,5 +166,7 @@ Back to the CommandLine record.
 ```bash
 Answer: https://controlc.com/e4d11035
 ```
+# Summary 
+thank you for taking your time to read though my walkthrough. Overall, the challenege definitly test my ability of of using splunk. The guides provided on the platform were incredibly helpful on guiding me through the challenge by learning techniques like advanced searches and SPL features.   
 
 
