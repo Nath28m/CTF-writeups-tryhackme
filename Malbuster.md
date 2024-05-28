@@ -95,6 +95,48 @@ Answer: 7JYpE.exe
 ## 7. Using the hash of malbuster_3, what is its malware signature based on abuse.ch?
 
 abuse.ch is a open-source community driven threat intelligence on cyber threats. We can use thier malware Bazaar Platform for search specific types of malware. 
+Obtain the MD5 hash of the given sample file and paste it into the serach and check under signature.
+
+![7 trickbot](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/0fe268da-418d-420b-bdb6-36010f0a4260)
+
+```bash
+Answer:TrickBot
+```
+
+## 8. Using the hash of malbuster_4, what is its malware signature based on abuse.ch?
+
+Same process.
+
+![8 zloader](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/8a22e672-a0b3-4148-91db-a39ebd0c0530)
+
+```bash
+Answer: ZLoader
+```
+
+## 9. What is the message found in the DOS_STUB of malbuster_4?
+
+This part took some time to figure for me figure out how to view the message. Turn out using PE-Tree malware analyser tool can reveal the message. i have tried before looking into the strings and indicators buyt there were so many possible 
+answers, i found this is the better way. 
+
+Use the tool in linux.
+```bash
+pe-tree (Sample file) 
+```
+
+under DOS_STUB header. 
+
+![Capture](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/11a050d3-2849-4e72-9d64-7b7cb9b58f77)
+
+```bash
+Answer: !This Salfram cannot be run in DOS mode.
+```
+
+
+
+
+
+
+
 
 
 
