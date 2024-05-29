@@ -130,6 +130,78 @@ under DOS_STUB header.
 ```bash
 Answer: !This Salfram cannot be run in DOS mode.
 ```
+## 10. malbuster_4 imports the function ShellExecuteA. From which DLL file does it import this function?
+
+This can be found within the Pe-Tree or throuigh virustotal under details. Under the imports. 
+
+![10shell](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/e13af06a-dc80-4592-93ac-17919d0c4c49)
+
+```bash
+Answer: shell32.dll
+```
+
+## 11. Using capa, how many anti-VM instructions were identified in malbuster_1?
+
+Capa is another open-source malware analysis tool to understand its capabilities of the file. Launch capa.
+
+```bash
+capa (sample file)
+```
+![11 avm](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/0fc4e0d8-e268-4bde-806a-e29392af14ce)
+
+```bash
+Answer: 3
+```
+
+## 12. Using capa, which binary can log keystrokes?
+
+Searching on all sample files and only 1 can lof keystrokes.
+
+![12](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/c613e1e0-fefc-4a88-950b-c61c9872c759)
+
+```bash
+Answer: malbuster_3
+```
+
+## 13. Using capa, what is the MITRE ID of the DISCOVERY technique used by malbuster_4?
+
+![13 mirte](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/ff73a1f8-3a9f-4fc1-bcb7-da9d1b30f7f8)
+
+```bash
+Answer: T1083
+```
+
+## 14. Which binary contains the string GodMode?
+
+in therminal we can search for specific strings embedded in the files. Using grep to grab the specfic string. -i will ignore cases (i included because i was used to it)
+
+```bash
+strings (sample file) | grep -i 'GodMode'
+```
+
+![14 god](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/c9ac136c-362c-44ee-a1de-2f3dfef04092)
+
+```bash
+Answer: malbuster_2
+```
+
+## 15. Which binary contains the string Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)?
+
+Same process but insstead of the full name i only chose to find 'Mozilla'.
+
+```bash
+strings (sample file) | grep -i 'Mozilla'
+```
+
+![15](https://github.com/Nath28m/CTF-writeups-tryhackme/assets/115990830/a8ac89a6-088c-4464-a0d6-a50993bc8144)
+
+```bash
+Answer: malbuster_1
+```
+
+
+
+
 
 
 
