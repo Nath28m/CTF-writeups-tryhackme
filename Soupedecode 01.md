@@ -157,7 +157,29 @@ configurationNamingContext: CN=Configuration,DC=SOUPEDECODE,DC=LOCAL
 # search result
 search: 2
 result: 0 Success
-
 # numResponses: 2
 # numEntries: 1
 ```
+
+```
+nxc smb 10.10.67.6 -u 'guest' -p '' --shares
+SMB         10.10.67.6      445    DC01             [*] Windows Server 2022 Build 20348 x64 (name:DC01) (domain:SOUPEDECODE.LOCAL) (signing:True) (SMBv1:False)
+SMB         10.10.67.6      445    DC01             [+] SOUPEDECODE.LOCAL\guest: 
+SMB         10.10.67.6      445    DC01             [*] Enumerated shares
+SMB         10.10.67.6      445    DC01             Share           Permissions     Remark
+SMB         10.10.67.6      445    DC01             -----           -----------     ------
+SMB         10.10.67.6      445    DC01             ADMIN$                          Remote Admin
+SMB         10.10.67.6      445    DC01             backup                          
+SMB         10.10.67.6      445    DC01             C$                              Default share
+SMB         10.10.67.6      445    DC01             IPC$            READ            Remote IPC
+SMB         10.10.67.6      445    DC01             NETLOGON                        Logon server share 
+SMB         10.10.67.6      445    DC01             SYSVOL                          Logon server share 
+SMB         10.10.67.6      445    DC01             Users
+```
+
+
+
+
+
+
+
