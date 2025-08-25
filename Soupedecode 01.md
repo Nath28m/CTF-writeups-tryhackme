@@ -131,6 +131,7 @@ So i can now use like smb client with the credentials to authenticate with smb r
 
 There is the User.txt flag.
 
+## 4. Privilege Escalation (Kerberoasting) 
 
 With these valid credentials i can now perform kerberosting to extract service account credentials from the active directory.
 
