@@ -90,7 +90,8 @@ used_cpu_user_children:0.00
 10.10.116.41:6379>
 ```
 
-```10.10.116.41:6379> CONFIG GET *
+```
+10.10.116.41:6379> CONFIG GET *
   1) "dbfilename"
   2) "dump.rdb"
   3) "requirepass"
