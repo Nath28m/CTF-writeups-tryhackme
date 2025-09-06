@@ -289,3 +289,83 @@ Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
     311      13     5744      13056              2544   0 WmiPrvSE                                                     
     175      10     6528       2208              2916   0 WmiPrvSE
 ```
+
+```
+PS C:\Users\enterprise-security\Downloads> Get-Service | Where-Object {$_.Status -eq 'Running'}
+
+Status   Name               DisplayName                           
+------   ----               -----------                           
+Running  ADWS               Active Directory Web Services         
+Running  AmazonSSMAgent     Amazon SSM Agent                      
+Running  BFE                Base Filtering Engine                 
+Running  BrokerInfrastru... Background Tasks Infrastructure Ser...
+Running  CDPSvc             Connected Devices Platform Service    
+Running  CertPropSvc        Certificate Propagation               
+Running  CoreMessagingRe... CoreMessaging                         
+Running  CryptSvc           Cryptographic Services                
+Running  DcomLaunch         DCOM Server Process Launcher          
+Running  Dfs                DFS Namespace                         
+Running  DFSR               DFS Replication                       
+Running  Dhcp               DHCP Client                           
+Running  DiagTrack          Connected User Experiences and Tele...
+Running  DNS                DNS Server                            
+Running  Dnscache           DNS Client                            
+Running  DPS                Diagnostic Policy Service             
+Running  DsmSvc             Device Setup Manager                  
+Running  DsSvc              Data Sharing Service                  
+Running  EventLog           Windows Event Log                     
+Running  EventSystem        COM+ Event System                     
+Running  FontCache          Windows Font Cache Service            
+Running  gpsvc              Group Policy Client                   
+Running  iphlpsvc           IP Helper                             
+Running  Kdc                Kerberos Key Distribution Center      
+Running  KeyIso             CNG Key Isolation                     
+Running  LanmanServer       Server                                
+Running  LanmanWorkstation  Workstation                           
+Running  LicenseManager     Windows License Manager Service       
+Running  lmhosts            TCP/IP NetBIOS Helper                 
+Running  LSM                Local Session Manager                 
+Running  mpssvc             Windows Defender Firewall             
+Running  MSDTC              Distributed Transaction Coordinator   
+Running  NcbService         Network Connection Broker             
+Running  Netlogon           Netlogon                              
+Running  netprofm           Network List Service                  
+Running  NlaSvc             Network Location Awareness            
+Running  nsi                Network Store Interface Service       
+Running  PlugPlay           Plug and Play                         
+Running  PolicyAgent        IPsec Policy Agent                    
+Running  Power              Power                                 
+Running  ProfSvc            User Profile Service                  
+Running  Redis              Redis                                 
+Running  RpcEptMapper       RPC Endpoint Mapper                   
+Running  RpcSs              Remote Procedure Call (RPC)           
+Running  RunScript          RunScript                             
+Running  SamSs              Security Accounts Manager             
+Running  Schedule           Task Scheduler                        
+Running  SENS               System Event Notification Service     
+Running  SessionEnv         Remote Desktop Configuration          
+Running  ShellHWDetection   Shell Hardware Detection              
+Running  Spooler            Print Spooler                         
+Running  sppsvc             Software Protection                   
+Running  StateRepository    State Repository Service              
+Running  SysMain            SysMain                               
+Running  SystemEventsBroker System Events Broker                  
+Running  TermService        Remote Desktop Services               
+Running  Themes             Themes                                
+Running  TimeBrokerSvc      Time Broker                           
+Running  TokenBroker        Web Account Manager                   
+Running  UALSVC             User Access Logging Service           
+Running  UmRdpService       Remote Desktop Services UserMode Po...
+Running  UserManager        User Manager                          
+Running  UsoSvc             Update Orchestrator Service           
+Running  vds                Virtual Disk                          
+Running  W32Time            Windows Time                          
+Running  Wcmsvc             Windows Connection Manager            
+Running  WinHttpAutoProx... WinHTTP Web Proxy Auto-Discovery Se...
+Running  Winmgmt            Windows Management Instrumentation    
+Running  WinRM              Windows Remote Management (WS-Manag...
+Running  wlidsvc            Microsoft Account Sign-in Assistant   
+Running  WLMS               Windows Licensing Monitoring Service  
+Running  WpnService         Windows Push Notifications System S...
+Running  wuauserv           Windows Update
+```
