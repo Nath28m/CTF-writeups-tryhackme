@@ -82,7 +82,15 @@ Both sites contains the owl image. There is potenial stegogrphy. Extracted the i
 
 But no results.
 
-At this point We're in a tough situation and its been 1 hour into the challenge and we've not made any progress. The room suggested that we should "think outside of the box". Took a little of think since our scans Recon is based on 'TCP' we tried the option for 'UDP' Recon. 
+At this point We're in a tough situation and its been 1 hour into the challenge and we've not made any progress. The room suggested that we should "think outside of the box". Took a little of think since our scans Recon is based on 'TCP' we tried the option for 'UDP' Recon. We had to reserach what common ports are 'UDP' based.
+
+<img width="934" height="598" alt="5 udp" src="https://github.com/user-attachments/assets/e9dca38c-af43-4aee-8f29-e8cae4830387" />
+
+There lots of UDP 'open|filtered' here, we did a bit of research on certain ports but the one that stands out is port 161 'SNMP' 
+
+
+
+
 
 ```
 ┌──(kali㉿kali)-[~]
