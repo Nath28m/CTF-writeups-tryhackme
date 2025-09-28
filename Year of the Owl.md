@@ -1,3 +1,4 @@
+## 1. Run an Nmap scan of the network 
 ```
 Starting Nmap 7.94 ( https://nmap.org ) at 2025-09-06 10:21 EDT
 Nmap scan report for 10.10.59.17
