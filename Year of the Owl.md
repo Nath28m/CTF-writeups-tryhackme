@@ -49,6 +49,41 @@ Nmap done: 1 IP address (1 host up) scanned in 179.63 seconds
 
 ```
 
+| **PORT**   | **SERVICE**       |
+|------------|-------------------|
+| 80/tcp     | http              |
+| 139/tcp    | netbios-ssn       |
+| 443/tcp    | ssl/http          |
+| 445/tcp    | microsoft-ds?     |
+| 3306/tcp   | mysql             |
+| 3389/tcp   | ms-wbt-server     |
+
+## 2. Reconnaissance and Enumeration
+
+Port 80 and 443 is open. Lets check them both out. 
+
+<img width="1341" height="845" alt="1 image" src="https://github.com/user-attachments/assets/28f9e939-7860-4c79-9a14-6c53279e85f6" />
+
+Both websites contains an image of an owl. There was nothing interesting within the source code. Let see if there are any directories and subdomains.
+
+We used Gobuster.
+
+<img width="813" height="522" alt="2" src="https://github.com/user-attachments/assets/06c4f8fd-1003-4615-b959-a1ce99232bc5" />
+
+Directories are status 403. 
+
+port 445 is open, but anonymous access has been disabled.  
+
+<img width="413" height="69" alt="3 port 445" src="https://github.com/user-attachments/assets/d1e66692-a1e1-4a5d-a5ad-6352e179c7bf" />
+
+Both sites contains the owl image. There is potenial stegogrphy. Extracted the image then use tool `steghide`, to extract. 
+
+<img width="471" height="230" alt="4 steg" src="https://github.com/user-attachments/assets/6f23e355-f4aa-4dd6-ba31-3088042ebb85" />
+
+But no results.
+
+At this point We're in a tough situation and its been 1 hour into the challenge and we've not made any progress. The room suggested that we should "think outside of the box". Took a little of think since our scans Recon is based on 'TCP' we tried the option for 'UDP' Recon. 
+
 ```
 ┌──(kali㉿kali)-[~]
 └─$ snmp-check 10.10.224.65 -c openview
